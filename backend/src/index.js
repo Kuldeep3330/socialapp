@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import app  from "./app.js";
 // import express from 'express'
-import {connectDB, gracefulShutdown} from "./src/db/db-index.js";
+import {connectDB, gracefulShutdown} from "./db/db-index.js";
 
 dotenv.config({
   path: "./env",
