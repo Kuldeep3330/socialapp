@@ -16,4 +16,9 @@
 
 /contants.js
 
+# dotenv environment variables file
+.env
+.env.test
+.env.production
+
 
