@@ -19,8 +19,8 @@ app.use(express.static("public"))
 app.use(cookieParser());
 
 // //importing routes
-// const post = require("./routes/Post");
-// const user = require("./routes/user");
+// const post = require("./routes/Post.route.js");
+// const user = require("./routes/user.route.js");
 
 // app.use("/api/v1", post);
 // app.use("/api/v1", user);

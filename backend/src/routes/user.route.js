@@ -1,6 +1,6 @@
-const express = require("express");
-const { register, login, followUser, logout, updatePassword, updateProfile, deleteMyProfile, myProfile, getUserProfile, getAllUsers, forgotPassword, resetPassword, getMyPosts, getUserPosts } = require("../../controllers/user");
-const { isAuthanticated } = require("../middlewares/auth.middleware");
+import express from "express";
+import { register, login, followUser, logout, updatePassword, updateProfile, deleteMyProfile, myProfile, getUserProfile, getAllUsers, forgotPassword, resetPassword, getMyPosts, getUserPosts } from "../controllers/user.js";
+import { isAuthanticated } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
@@ -21,4 +21,4 @@ router.route("/password/reset/:token").put( resetPassword);
 
 
 
-module.exports = router;
+export default router;

@@ -1,10 +1,15 @@
-const User = require("../models/User");
-const Post = require("../models/Post");
-const { sendEmail } = require("../middlewares/sendEmail");
-const crypto = require("crypto");
-const cloudinary = require("cloudinary");
+import {User} from "../models/User.model.js";
+import {Post} from "../models/Post.model.js";
+import { sendEmail } from "../middlewares/sendEmail.js";
+import crypto from "crypto";
+import cloudinary from "cloudinary";
+import {uploadOnCloudinary} from "../utils/cloudinary.js"
+import {ApiError} from "../utils/ApiError.js"
+import { ApiResponse } from "../utils/ApiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-exports.register = async (req, res) => {
+
+const register = async (req, res) => {
   try{
   const { name, email, password, avatar } = req.body;
   
@@ -12,7 +17,9 @@ exports.register = async (req, res) => {
   if (user) {
     return res
       .status(400)
-      .json({ success: false, message: "User already exists" });
+      .json(
+        // new ApiResponse(200, user,"User already exists"  )
+        { success: false, message: "User already exists" });
   }
 
   const myCloud = await cloudinary.v2.uploader.upload(avatar, {
@@ -47,7 +54,7 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     // console.log(email, password);
@@ -100,7 +107,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
+const logout = async (req, res) => {
   try {
     res
       .status(200)
@@ -117,7 +124,7 @@ exports.logout = async (req, res) => {
   }
 };
 
-exports.followUser = async (req, res) => {
+const followUser = async (req, res) => {
   try {
     const userToFollow = await User.findById(req.params.id);
     const loggedInUser = await User.findById(req.user._id);
@@ -164,7 +171,7 @@ exports.followUser = async (req, res) => {
   }
 };
 
-exports.updatePassword = async (req, res) => {
+const updatePassword = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("+password");
 
@@ -200,7 +207,7 @@ exports.updatePassword = async (req, res) => {
   }
 };
 
-exports.updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
 
@@ -237,7 +244,7 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-exports.deleteMyProfile = async (req, res) => {
+const deleteMyProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     const posts = user.posts;
@@ -319,7 +326,7 @@ exports.deleteMyProfile = async (req, res) => {
   }
 };
 
-exports.myProfile = async (req, res) => {
+const myProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).populate(
       "posts followers following"
@@ -337,7 +344,7 @@ exports.myProfile = async (req, res) => {
   }
 };
 
-exports.getUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).populate(
       "posts followers following"
@@ -362,7 +369,7 @@ exports.getUserProfile = async (req, res) => {
   }
 };
 
-exports.getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({
       "name": {$regex: req.query.name ,$options: 'i'},
@@ -381,7 +388,7 @@ exports.getAllUsers = async (req, res) => {
   }
 };
 
-exports.forgotPassword = async (req, res) => {
+const forgotPassword = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
 
@@ -431,7 +438,7 @@ exports.forgotPassword = async (req, res) => {
   }
 };
 
-exports.resetPassword = async (req, res) => {
+const resetPassword = async (req, res) => {
   try {
     const resetPasswordToken = crypto
       .createHash("sha256")
@@ -468,7 +475,7 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-exports.getMyPosts = async (req, res) => {
+const getMyPosts = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
 
@@ -493,7 +500,7 @@ exports.getMyPosts = async (req, res) => {
   }
 };
 
-exports.getUserPosts = async (req, res) => {
+const getUserPosts = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
@@ -517,3 +524,5 @@ exports.getUserPosts = async (req, res) => {
     });
   }
 };
+
+export { register, login, followUser, logout, updatePassword, updateProfile, deleteMyProfile, myProfile, getUserProfile, getAllUsers, forgotPassword, resetPassword, getMyPosts, getUserPosts };
