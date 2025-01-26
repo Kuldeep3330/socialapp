@@ -3,10 +3,10 @@ import {Post} from "../models/Post.model.js";
 import { sendEmail } from "../middlewares/sendEmail.js";
 import crypto from "crypto";
 import cloudinary from "cloudinary";
-import {uploadOnCloudinary} from "../utils/cloudinary.js"
-import {ApiError} from "../utils/ApiError.js"
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js";
+// import {uploadOnCloudinary} from "../utils/cloudinary.js"
+// import {ApiError} from "../utils/ApiError.js"
+// import { ApiResponse } from "../utils/ApiResponse.js";
+// import { asyncHandler } from "../utils/asyncHandler.js";
 
 
 const register = async (req, res) => {

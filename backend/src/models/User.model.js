@@ -2,8 +2,7 @@ import mongoose,{Schema} from "mongoose";
 
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-
-const crypto = require("crypto");
+import crypto from "crypto";
 
 const userSchema = new Schema({
   name: {
